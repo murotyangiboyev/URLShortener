@@ -13,21 +13,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@Tag(name = "URL Shortener", description = "Shorten and redirect URLs")
 public class UrlController {
     private final UrlService urlService;
 
+    @Operation(summary = "Shorten a URL", description = "Takes a long URL and returns a short code")
     @PostMapping("/shorten")
     public ResponseEntity<String> shorten(@RequestBody UrlRequestDto dto) {
         String shortcode = urlService.shortenUrl(dto.getUrl());
         return ResponseEntity.ok("/api/url/" + shortcode);
     }
 
+    @Operation(summary = "Shorten a URL", description = "Takes a long URL and returns a short code")
     @GetMapping("/url/{shortCode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
         String originalUrl = urlService.getOriginalUrl(shortCode);

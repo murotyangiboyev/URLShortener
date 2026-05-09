@@ -1,6 +1,7 @@
 package org.example.urlshortener.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.dto.UrlRequestDto;
 import org.example.urlshortener.service.UrlService;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.URI;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")

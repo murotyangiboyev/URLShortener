@@ -1,13 +1,16 @@
 package org.example.urlshortener.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.model.Url;
 import org.example.urlshortener.repository.UrlRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -16,6 +19,7 @@ public class UrlService {
     private final UrlRepository urlRepository;
 
     private static final String BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
 
     public String shortenUrl(String originalUrl){
         String shortCode = generateCode(originalUrl);
@@ -43,7 +47,9 @@ public class UrlService {
         return code.toString();
     }
 
+    @Cacheable(value = "url", key = "#shortCode")
     public String getOriginalUrl(String shortCode){
+        log.info("Database hit");
         return urlRepository.findByShortCode(shortCode)
                 .map(Url::getOriginalUrl)
                 .orElseThrow(() -> new RuntimeException("URL not found"));

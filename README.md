@@ -6,6 +6,8 @@ A REST API that shortens long URLs, built with Java and Spring Boot.
 - Java 17
 - Spring Boot 3
 - PostgreSQL
+- Redis (caching)
+- Bucket4j (rate limiting)
 - Swagger UI
 
 ## How to run locally

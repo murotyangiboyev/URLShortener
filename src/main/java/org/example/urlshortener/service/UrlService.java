@@ -22,6 +22,10 @@ public class UrlService {
 
 
     public String shortenUrl(String originalUrl){
+
+        if (originalUrl == null || originalUrl.isBlank()){
+            throw new IllegalArgumentException("URL cannot be empty");
+        }
         String shortCode = generateCode(originalUrl);
 
         while (urlRepository.existsByShortCode(shortCode)){
